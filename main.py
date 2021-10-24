@@ -1,82 +1,47 @@
-#task 1
-def reversed_number():
 
-    N = input('Wprowadź liczbę')
-    if int(N) > 0:
-        reverse = int(N[::-1])
-    else:
-        N = N[1:]
-        reverse = -(int(N[::-1]))
+alphabet = {'a': '1', 'b': '2', 'c':'3','d':'4','e':'5','f':'6','g':'7','h':'8','i':'9','j':'10',
+            'k':'11','l':'12','m':'13','n':'14','o':'15','p':'16','q':'17','r':'18','s':'19',
+            't':'20','u':'21','v':'22','x':'23','y':'24','z':'25','A': '26', 'B': '27', 'C':'28',
+            'D':'29', 'E':'30','F':'31','G':'32','H':'33','I':'34','J':'35','K':'36','L':'37','M':'38',
+            'N':'39','O':'40','P':'41','Q':'42','R':'43','S':'44','T':'45','U':'46','V':'47','X':'48',
+            'Y':'49','Z':'50','1':'52','2':'53','3':'54','4':'55','5':'56','6':'57','7':'58',
+            '8':'59','9':'60',',':'61','\n':'62','.':'63',':':'64',';':'65','/':'66','?':'67',
+            '#':'68','!':'69','@':'70'}
+def code_text():
+    while True:
+        try:
+            text = input('Podaj tekst do zaszyfrowania, co najmniej 8 znaków')
+            if len(text) > 8:
+                for i in text:
+                    value = (alphabet[i])
+                    klucz = 10
+                    new_value = int(value) + klucz
+                    if new_value > 70:
+                        new_value = new_value - 70
+                    for key, value in alphabet.items():
+                        if value == str(new_value):
+                            print (key, end ='')
+                return ''
+            else:
+                print('Szyfr musi zawirać conajmniej 8 znaków')
+        except KeyError:
+            return ('Nie znaleziono wartości' + i + ' w słowniku!')
 
-    if (-2147483648 > reverse) or (reverse > 2147483647):
-        return 0
-    else:
-        return reverse
-
-
-#print(reversed_number())
-
-#task 2
-list_of_numbers = [[],[], ['a','b','c'], ['d','e','f'], ['g','h','i'], ['j','k','l'], ['m','n','o'], ['p','q','r','s'], ['t','u','v'], ['w','x','y','z']]
-number = input('Wprowadź liczbę')
-
-def check_combination(number):
-    numbers = []
-    if len(number) == 1:
-        for i in list_of_numbers[(int(number))]:
-            numbers.append(i)
-        return numbers
-    elif len(number) > 1:
-        index = len(number)
-        for i in range(index-1):
-            d = len(list_of_numbers[int(number[i])])
-            c = 0
-            for j in range(d):
-                j = 0
-                while j<d:
-                    indeks = list_of_numbers[int(number[i])][c] + list_of_numbers[int(number[i+1])][j]
-                    j+=1
-                    numbers.append(indeks)
-                c+=1
-        return numbers
-
-
-#print(check_combination(number))
-
-#task 3
-
-import numpy as np
-import pprint
-text = "Hey there mate Matt, it’s nice to finally meet you!"
-def format_text(text):
+def decode_text(text):
+    for i in text:
+        value = (alphabet[i])
+        klucz = 10
+        original_value = int(value) - klucz
+        if original_value < 0:
+            original_value = 70 + original_value
+        for key, value in alphabet.items():
+            if value == str(original_value):
+                print (key, end ='')
+    return ''
 
 
-    text = text.split(' ')
-    line = []
-    line_width = 0
-    lines = []
-    words = text
-    maxWidth = 16
-    for word in words:
-        if len(word) + line_width + len(line) > maxWidth:
-            # Need to add justified line
-            nspaces = len(line) - 1 if len(line) - 1 else 1
-            for i in range(maxWidth - line_width):
-                line[i % nspaces] += " "
-            lines.append("".join(line))
-            line = []
-            line_width = 0
-        line.append(word)
-        line_width += len(word)
 
-    last_line = " ".join(line)
-    last_line = last_line.strip()
-    last_line = last_line + " " * (maxWidth - len(last_line))
-    lines.append(last_line)
-    pp = pprint.PrettyPrinter(depth=2)
+#p = (decode_text('DDD'))
+#print(p)
 
-    for i in lines:
-        pp.pprint(i)
-
-
-print(format_text(text))
+print(code_text())
